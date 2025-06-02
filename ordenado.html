@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Ordenando com JS</title>
+</head>
+<body>
+    <h1>Ordenando Números</h1>
+
+    <input type="number" id="valor" placeholder="Digite um número" />
+    <button onclick="add()">Adicionar</button>
+
+    <select id="metodo">
+        <option selected>Bubble Sort</option>
+        <option>Selection Sort</option>
+        <option>Quick Sort</option>
+    </select>
+
+    <button onclick="ordenar()">Ordenar</button>
+    <button onclick="misturar()">Misturar</button>
+
+    <ul id="valores"></ul>
+
+    <script src="ordenado.js"></script>
+    <script>
+        function add() {
+            const input = document.getElementById("valor");
+            const lista = document.getElementById("valores");
+
+            if (input.value === "") return;
+
+            const node = document.createElement("li");
+            const texto = document.createTextNode(input.value);
+            node.appendChild(texto);
+            lista.appendChild(node);
+
+            input.value = "";
+            input.focus();
+        }
+
+        function ordenar() {
+            const lista = document.getElementById("valores");
+            const metodo = document.getElementById("metodo");
+            let vetor = Array.from(lista.children).map(item => parseFloat(item.innerHTML));
+
+            switch (metodo.selectedIndex) {
+                case 0:
+                    bubble_sort(vetor);
+                    break;
+                case 1:
+                    selection_sort(vetor);
+                    break;
+                case 2:
+                    quick_sort(vetor, 0, vetor.length - 1);
+                    break;
+            }
+
+            lista.innerHTML = vetor.map(item => `<li>${item}</li>`).join("");
+        }
+
+        function misturar() {
+            const lista = document.getElementById("valores");
+            let vetor = Array.from(lista.children).map(item => parseFloat(item.innerHTML));
+
+            shuffle(vetor, vetor.length * 2);
+
+            lista.innerHTML = vetor.map(item => `<li>${item}</li>`).join("");
+        }
+    </script>
+</body>
+</html>
